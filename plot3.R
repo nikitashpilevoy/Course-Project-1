@@ -1,0 +1,13 @@
+data <- read.table("household_power_consumption.txt", header = T, sep = ";", na.strings = "?")
+data$Date <- as.Date(data$Date, format = "%d/%m/%Y")
+mydata <- data[which(data$Date =="2007-02-01" | data$Date == "2007-02-02"), ]
+mydata$Time <- strptime(paste(as.Date(mydata$Date), mydata$Time), format = "%Y-%m-%d %H:%M:%S")
+png("plot3.png")
+plot(mydata$Time, mydata$Sub_metering_1, type = 'l', col = 'black', ylim = c(0, 40), ann = FALSE)
+par(new = TRUE)
+plot(mydata$Time, mydata$Sub_metering_2, type = 'l', col = 'red'  , ylim = c(0, 40), ann = FALSE)
+par(new = TRUE)
+plot(mydata$Time, mydata$Sub_metering_3, type = 'l', col = 'blue' , ylim = c(0, 40), ann = FALSE) 
+legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), col = c("black", "red", "blue"), lty = c(1, 1, 1))
+title(ylab = "Energy sub metering")
+dev.off()
